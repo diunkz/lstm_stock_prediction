@@ -1,0 +1,26 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+.env
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# --- Modelos e Dados ---
+#app/saved_models/*.keras
+#app/saved_models/*.pkl
+
+# Se os dados brutos forem muito grandes
+#data/*.csv
+
+# --- Docker ---
+.dockerignore
+
+# --- OS específicos ---
+.DS_Store
+Thumbs.db
