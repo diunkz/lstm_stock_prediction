@@ -1,12 +1,20 @@
-version: '3.8'
-
 services:
   api_estoque:
-    # O 'build' aponta para a pasta onde está o Dockerfile
-    build: ./app
+    # Define o contexto do build como a raiz (.) para que o Docker enxergue as subpastas
+    build:
+      context: .
+      # Aponta para o local exato do arquivo de instruções de montagem
+      dockerfile: ./app/Dockerfile
+    
+    # Nome que aparecerá no seu Docker Desktop ou terminal
     container_name: stock-prediction-api
+    
+    # Mapeamento de portas: [Porta na sua Máquina] : [Porta dentro do Container]
     ports:
       - "8000:8000"
+    
+    # Garante que o container suba sozinho caso o Docker reinicie
     restart: always
-    # Ajuste para garantir performance no seu chip M4
+    
+    # Otimização específica para o seu chip M4 (Arquitetura ARM64)
     platform: linux/arm64
