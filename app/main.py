@@ -5,9 +5,14 @@ import joblib
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # 1. Inicialização do App
 app = FastAPI(title="Stock Prediction API - Noah Diunkz")
+
+
+# Ativa o monitoramento automático de métricas (latência, requisições, etc)
+Instrumentator().instrument(app).expose(app)
 
 
 # 2. Definição do Modelo de Entrada
