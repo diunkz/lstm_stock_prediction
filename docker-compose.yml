@@ -1,20 +1,35 @@
 services:
   api_estoque:
-    # Define o contexto do build como a raiz (.) para que o Docker enxergue as subpastas
     build:
       context: .
-      # Aponta para o local exato do arquivo de instruções de montagem
       dockerfile: ./app/Dockerfile
-    
-    # Nome que aparecerá no seu Docker Desktop ou terminal
     container_name: stock-prediction-api
-    
-    # Mapeamento de portas: [Porta na sua Máquina] : [Porta dentro do Container]
     ports:
       - "8000:8000"
-    
-    # Garante que o container suba sozinho caso o Docker reinicie
-    restart: always
-    
-    # Otimização específica para o seu chip M4 (Arquitetura ARM64)
     platform: linux/arm64
+    networks:
+      - monitoramento
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoramento
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - monitoramento
+
+networks:
+  monitoramento:
+    driver: bridge
